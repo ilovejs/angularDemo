@@ -45,11 +45,9 @@
             <table class="table table-striped">
                 <tbody>
                     <tr ng-repeat="item in items">
-                        <td>{{item}}</td>
+                        <td><h4>{{item.name}}</h4></td>
                         <td>
-                            <button class="btn btn-danger" ng-click="removeDb(item)">
-                                <i class="icon icon-remove icon-white"></i>
-                            </button>
+                            <delete-button text="Delete"></delete-button>
                         </td>
                     </tr>
                 </tbody>

@@ -12,11 +12,29 @@ ngMongo.factory("Mongo", function($resource){
     }
 });
 
+//naming convention is Carmle case
+ngMongo.directive("deleteButton", function(){
+    return{
+        //element directives, A -> attribute, C -> class, also works for comments
+        restrict: "E",
+        transclude: true,
+        replace: true,
+        link: function(scope, el, atts){
+            var buttonText = "<button class='btn btn-danger' ng-click='removeDb(item)' ng-transclude><i class='icon icon-remove icon-white'></i>" + atts.text + "</button>";
+            el.html(buttonText);
+            el.on("click", function(){
+                scope.removeDb(scope.item);
+            })
+        }
+    };
+});
+
 ngMongo.controller("ListCtrl", function($scope, $http, Mongo){
-   var result = $http.get("/mongo-api/dbs");
-   result.success(function(data){
-       $scope.items = data;
-   });
+    $scope.items = Mongo.database.query({}, isArray = true);
+//   var result = $http.get("/mongo-api/dbs");
+//   result.success(function(data){
+//       $scope.items = data;
+//   });
 
    $scope.addDb = function(){
        var dbName = $scope.newDbName;
