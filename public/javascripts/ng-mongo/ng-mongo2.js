@@ -12,8 +12,11 @@ ngMongo.factory("Mongo", function($resource){
     }
 });
 
-ngMongo.controller("ListCtrl", function($scope, Mongo){
-   $scope.items = Mongo.database.query({}, isArray = true);
+ngMongo.controller("ListCtrl", function($scope, $http, Mongo){
+   var result = $http.get("/mongo-api/dbs");
+   result.success(function(data){
+       $scope.items = data;
+   });
 
    $scope.addDb = function(){
        var dbName = $scope.newDbName;
