@@ -47,7 +47,7 @@
                     <tr ng-repeat="item in items">
                         <td><h4>{{item.name}}</h4></td>
                         <td>
-                            <delete-button text="Delete"></delete-button>
+                            <delete-button text="Delete" action="removeDb(item)"></delete-button>
                         </td>
                     </tr>
                 </tbody>
