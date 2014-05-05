@@ -40,24 +40,26 @@
 </div>
 
 <div class="container" ng-app="ngMongo">
-    <div ng-controller="ListCtrl">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Beer</th>
-                <th>Price</th>
-                <th>Last Had</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="item in items">
-                <td>{{item.name}}</td>
-                <td>{{item.price | currency}}</td>
-                <td>{{item.lastDrank | date: 'fullDate'}}</td>
-            </tr>
-            </tbody>
-        </table>
-        <!--pluralize-->
+    <div ng-controller="ListCtrl" class="row">
+        <div class="span9">
+            <table class="table table-striped">
+                <tbody>
+                    <tr ng-repeat="item in items">
+                        <td>{{item.name}}</td>
+                        <td>
+                            <button class="btn btn-danger" ng-click="removeDb(item)">
+                                <i class="icon icon-remove icon-white"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="span3">
+            <input type="text" ng-model="newDbName"/>
+            <button class="btn btn-success" ng-click="addDb()">Add</button>
+        </div>
+
         <hr/>
 
     </div>
