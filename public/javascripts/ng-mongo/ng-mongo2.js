@@ -2,24 +2,19 @@
  * Created by m.zhuang on 5/05/2014.
  */
 
-var ngMongo = angular.module("ngMongo", []);
+var ngMongo = angular.module("ngMongo", ['ngResource']);
 
 //factory return object, while services() return function
-ngMongo.factory("Mongo", function($http){
+ngMongo.factory("Mongo", function($resource){
     //inject http service to Mongo
-    return{
-        database: function(){
-            return $http.get("/mongo-api/dbs");
-        }
+    return {
+        database: $resource("/mongo-api/dbs")
     }
 });
 
 ngMongo.controller("ListCtrl", function($scope, Mongo){
-    //http get returns a promise....
-    var result = Mongo.database();
-    result.success(function(data){
-        $scope.items = data;
-    });
+   $scope.items = Mongo.database.query({}, isArray = true);
+    DB = $scope.items;
 });
 
 //mongo-api/dbs
