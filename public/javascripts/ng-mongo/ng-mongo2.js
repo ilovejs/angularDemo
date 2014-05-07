@@ -13,32 +13,9 @@ ngMongo.factory("Mongo", function($resource){
 });
 
 //naming convention is Carmle case
-ngMongo.directive("deleteButton", function(){
-    return{
-        //element directives, A -> attribute, C -> class, also works for comments
-        restrict: "E",
-        replace: true,
-        scope :{
-            text: "@",
-            action: "&",  //sth like lambda function
-            comment: "="
-        },
-        template: "<button class='btn btn-danger' ng-click='action()'><i class='icon icon-remove icon-white'></i>{{text}}</button>"
+ngMongo.directive("deleteButton", Tekpub.Bootstrap.DeleteButton);
 
-    };
-});
-
-ngMongo.directive("addButton",function(){
-   return{
-       restrict: "E",
-       scope: {
-           action: "&",
-           text: "@"
-       },
-       //if just use explict function: addDb(), it won't work
-       template: "<button class='btn btn-success' ng-click='action()'><i class='icon icon-white icon-plus-sign'></i>{{text}}</button>"
-   }
-});
+ngMongo.directive("addButton", Tekpub.Bootstrap.AddButton);
 
 ngMongo.controller("ListCtrl", function($scope, $http, Mongo){
     $scope.items = Mongo.database.query({}, isArray = true);
