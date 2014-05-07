@@ -20,11 +20,24 @@ ngMongo.directive("deleteButton", function(){
         replace: true,
         scope :{
             text: "@",
-            action: "&"
+            action: "&",  //sth like lambda function
+            comment: "="
         },
         template: "<button class='btn btn-danger' ng-click='action()'><i class='icon icon-remove icon-white'></i>{{text}}</button>"
 
     };
+});
+
+ngMongo.directive("addButton",function(){
+   return{
+       restrict: "E",
+       scope: {
+           action: "&",
+           text: "@"
+       },
+       //if just use explict function: addDb(), it won't work
+       template: "<button class='btn btn-success' ng-click='action()'><i class='icon icon-white icon-plus-sign'></i>{{text}}</button>"
+   }
 });
 
 ngMongo.controller("ListCtrl", function($scope, $http, Mongo){
@@ -41,6 +54,7 @@ ngMongo.controller("ListCtrl", function($scope, $http, Mongo){
            newDb.$save(); //use http POST
            $scope.items.push(newDb); //check node console info to make sure it is POST
        }
+       console.log(dbName);
    };
 
    $scope.removeDb = function(item){
