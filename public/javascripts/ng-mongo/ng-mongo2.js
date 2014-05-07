@@ -11,7 +11,7 @@ var ngMongo = angular.module("ngMongo", ['ngResource']);
 ngMongo.config(function($routeProvider){
     $routeProvider
         .when("/",{
-            templateUrl: "list-template.html",
+            templateUrl: "/javascripts/ng-mongo/templates/list_template.html",
             controller: "ListCtrl"
         });
 });

@@ -40,31 +40,6 @@
 </div>
 
 <div class="container" ng-app="ngMongo">
-    <div class="row">
-        <script type="text/ng-template" id="list-template.html">
-            <div class="span9">
-                <table class="table table-striped">
-                    <tbody>
-                        <tr ng-repeat="item in items">
-                            <td>
-                                <h4>
-                                    <a href='{{item.details}}'>{{item.name}}</a>
-                                </h4>
-                            </td>
-                            <td>
-                                <delete-button text="Delete" action="removeDb(item)"></delete-button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="span3">
-                <input type="text" ng-model="newDbName"/>
-                <!---->
-                <add-button text="Add" action="addDb()"></add-button>
-            </div>
-        </script>
-    </div>
     <!--bing with routeProvider-->
     <ng-view></ng-view>
 </div>
