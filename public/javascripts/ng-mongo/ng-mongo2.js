@@ -4,6 +4,18 @@
 
 var ngMongo = angular.module("ngMongo", ['ngResource']);
 
+/*
+* Pattern taken from : Egghead.io
+* Egghead.io - AngularJS - YouTube by John Lindquist
+* */
+ngMongo.config(function($routeProvider){
+    $routeProvider
+        .when("/",{
+            templateUrl: "list-template.html",
+            controller: "ListCtrl"
+        });
+});
+
 //factory return object, while services() return function
 ngMongo.factory("Mongo", function($resource){
     //inject http service to Mongo
