@@ -4,6 +4,18 @@
 
 var ngMongo = angular.module("ngMongo", ['ngResource']);
 
+/*
+* Pattern taken from : Egghead.io
+* Egghead.io - AngularJS - YouTube by John Lindquist
+* */
+ngMongo.config(function($routeProvider){
+    $routeProvider
+        .when("/",{
+            templateUrl: "list-template.html",
+            controller: "ListCtrl"
+        });
+});
+
 //factory return object, while services() return function
 ngMongo.factory("Mongo", function($resource){
     //inject http service to Mongo
@@ -13,19 +25,9 @@ ngMongo.factory("Mongo", function($resource){
 });
 
 //naming convention is Carmle case
-ngMongo.directive("deleteButton", function(){
-    return{
-        //element directives, A -> attribute, C -> class, also works for comments
-        restrict: "E",
-        replace: true,
-        scope :{
-            text: "@",
-            action: "&"
-        },
-        template: "<button class='btn btn-danger' ng-click='action()'><i class='icon icon-remove icon-white'></i>{{text}}</button>"
+ngMongo.directive("deleteButton", Tekpub.Bootstrap.DeleteButton);
 
-    };
-});
+ngMongo.directive("addButton", Tekpub.Bootstrap.AddButton);
 
 ngMongo.controller("ListCtrl", function($scope, $http, Mongo){
     $scope.items = Mongo.database.query({}, isArray = true);
@@ -41,6 +43,7 @@ ngMongo.controller("ListCtrl", function($scope, $http, Mongo){
            newDb.$save(); //use http POST
            $scope.items.push(newDb); //check node console info to make sure it is POST
        }
+       console.log(dbName);
    };
 
    $scope.removeDb = function(item){
