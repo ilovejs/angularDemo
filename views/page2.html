@@ -43,22 +43,7 @@
     <div class="row">
 
         <script type="text/ng-template" id="breadcrumb-template.html">
-            <div class="row">
-                <div class="span12">
-                    <ol class="breadcrumb">
-                        <!--<li><h3><a href="#/">Databases</a><span class="separator" ng-show="database"> -> </span></h3></li>-->
-                        <!--<li><h3><a href="#/{{database}}">{{database}}</a><span class="divider" ng-show="collection"> / </span></h3></li>-->
-                        <!--<li><h3><a href="#/{{database}}/{{collection}}">{{collection}}</a><span class="divider" ng-show="document"> / </span></h3></li>-->
 
-                        <li ng-repeat="crumb in crumbs">
-                            <h3>
-                                <a href="{{crumb.url}}">{{crumb.text}}</a>
-                                <span class="divider" ng-show="notLast(crumb)"> / </span>
-                            </h3>
-                        </li>
-                    </ol>
-                </div>
-            </div>
         </script>
 
         <script type="text/ng-template" id="list-template.html">

@@ -42,34 +42,7 @@ ngMongo.directive("deleteButton", Tekpub.Bootstrap.DeleteButton);
 
 ngMongo.directive("addButton", Tekpub.Bootstrap.AddButton);
 
-ngMongo.directive("breadcrumbs", function($routeParams){
-    return{
-        restrict: "E",
-        controller: function($scope){
-            var rootUrl = "#/";
-            //controller inside of directives
-            $scope.crumbs = [{url: rootUrl, text: "Databases"}];
-
-            var runningUrl = rootUrl;
-            for(var param in $routeParams){
-                //TODO: hasOwnProperty check, 2.console print does working for $routeParams or single items
-                runningUrl += $routeParams[param];
-                $scope.crumbs.push({url: runningUrl, text: $routeParams[param]});
-            }
-//            console.log("rp: ");
-//            console.log($routeParams);
-//            console.log("end rp");
-            $scope.notLast = function(crumb){
-                //console.log($scope.crumbs);
-//                return false;
-                return  (crumb !== _.last($scope.crumbs));
-            }
-        },
-        templateUrl: "breadcrumb-template.html"
-
-    };
-
-});
+ngMongo.directive("breadcrumbs", Tekpub.Bootstrap.BreadCrumbs);
 
 ngMongo.controller("DocumentCtrl", function($scope, $routeParams, Mongo){
     $scope.documents = Mongo.document.query($routeParams);

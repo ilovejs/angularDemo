@@ -30,3 +30,42 @@ Tekpub.Bootstrap.DeleteButton = function(){
 
     };
 };
+
+Tekpub.Bootstrap.BreadCrumbs = function($routeParams){
+    return{
+        restrict: "E",
+        controller: function($scope){
+            var rootUrl = "#/";
+            //controller inside of directives
+            $scope.crumbs = [{url: rootUrl, text: "Databases"}];
+
+            var runningUrl = rootUrl;
+            for(var param in $routeParams){
+                //TODO: hasOwnProperty check, 2.console print does working for $routeParams or single items
+                runningUrl += $routeParams[param];
+                $scope.crumbs.push({url: runningUrl, text: $routeParams[param]});
+            }
+//            console.log("rp: ");
+//            console.log($routeParams);
+//            console.log("end rp");
+            $scope.notLast = function(crumb){
+                //console.log($scope.crumbs);
+//                return false;
+                return  (crumb !== _.last($scope.crumbs));
+            }
+        },
+        template: '<div class="row">' +
+            '<div class="span12">' +
+            '<ol class="breadcrumb">' +
+            '<li ng-repeat="crumb in crumbs">' +
+            '<h3>' +
+            '<a href="{{crumb.url}}">{{crumb.text}}</a>' +
+            '<span class="divider" ng-show="notLast(crumb)"> / </span>' +
+            '</h3>' +
+            '</li>' +
+            '</ol>' +
+            '</div>' +
+            '</div>'
+
+    };
+};
