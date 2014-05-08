@@ -17,6 +17,13 @@ ngMongo.config(function($routeProvider){
         .when("/:database", {
             templateUrl: "list-template.html",
             controller: "ListCtrl"
+        })
+        .when("/:database/:collection", {
+            templateUrl: "document-template.html",
+            controller: "DocumentCtrl"
+        })
+        .otherwise({
+            template: "<h1>Not Found</h1>"
         });
 });
 
@@ -25,7 +32,8 @@ ngMongo.factory("Mongo", function($resource){
     //inject http service to Mongo
     return {
         database: $resource("/mongo-api/dbs"),
-        collection: $resource("/mongo-api/:database")
+        collection: $resource("/mongo-api/:database"),
+        document: $resource("/mongo-api/:database/:collection")
     }
 });
 
@@ -33,6 +41,12 @@ ngMongo.factory("Mongo", function($resource){
 ngMongo.directive("deleteButton", Tekpub.Bootstrap.DeleteButton);
 
 ngMongo.directive("addButton", Tekpub.Bootstrap.AddButton);
+
+ngMongo.controller("DocumentCtrl", function($scope, $routeParams, Mongo){
+    _.extend($scope, $routeParams);
+    $scope.documents = Mongo.document.query($routeParams);
+
+});
 
 ngMongo.controller("ListCtrl", function($scope, $routeParams, $http, Mongo){
     //extend scope with route on it k=database, v={{name}}
