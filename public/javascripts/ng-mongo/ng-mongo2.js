@@ -42,6 +42,14 @@ ngMongo.directive("deleteButton", Tekpub.Bootstrap.DeleteButton);
 
 ngMongo.directive("addButton", Tekpub.Bootstrap.AddButton);
 
+ngMongo.directive("breadcrumbs", function(){
+    return{
+        restrict: "E",
+        templateUrl: "breadcrumb-template.html"
+
+    }
+});
+
 ngMongo.controller("DocumentCtrl", function($scope, $routeParams, Mongo){
     _.extend($scope, $routeParams);
     $scope.documents = Mongo.document.query($routeParams);

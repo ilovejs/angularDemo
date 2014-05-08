@@ -41,15 +41,23 @@
 
 <div class="container" ng-app="ngMongo">
     <div class="row">
-        <script type="text/ng-template" id="list-template.html">
+
+        <script type="text/ng-template" id="breadcrumb-template.html">
             <div class="row">
                 <div class="span12">
                     <ol class="breadcrumb">
                         <li><h3><a href="#/">Databases</a><span class="separator" ng-show="database"> / </span></h3></li>
-                        <li><h3><a href="#/{{database}}">{{database}}</a></h3></li>
+                        <li><h3><a href="#/{{database}}">{{database}}</a><span class="divider" ng-show="collection"> / </span></h3></li>
+                        <li>
+                            <h3>{{collection}}</h3>
+                        </li>
                     </ol>
                 </div>
             </div>
+        </script>
+
+        <script type="text/ng-template" id="list-template.html">
+            <breadcrumbs></breadcrumbs>
             <div class="row">
                 <div class="span9">
                     <table class="table table-striped">
@@ -76,6 +84,7 @@
         </script>
 
         <script type="text/ng-template" id="document-template.html">
+            <breadcrumbs></breadcrumbs>
             <div class="row">
                 <div class="span9" id="document-list">
                     <ul>
