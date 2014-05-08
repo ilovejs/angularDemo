@@ -13,6 +13,10 @@ ngMongo.config(function($routeProvider){
         .when("/",{
             templateUrl: "list-template.html",
             controller: "ListCtrl"
+        })
+        .when("/:database", {
+            templateUrl: "list-template.html",
+            controller: "ListCtrl"
         });
 });
 
@@ -20,7 +24,8 @@ ngMongo.config(function($routeProvider){
 ngMongo.factory("Mongo", function($resource){
     //inject http service to Mongo
     return {
-        database: $resource("/mongo-api/dbs")
+        database: $resource("/mongo-api/dbs"),
+        collection: $resource("/mongo-api/:database")
     }
 });
 
@@ -29,8 +34,29 @@ ngMongo.directive("deleteButton", Tekpub.Bootstrap.DeleteButton);
 
 ngMongo.directive("addButton", Tekpub.Bootstrap.AddButton);
 
-ngMongo.controller("ListCtrl", function($scope, $http, Mongo){
-    $scope.items = Mongo.database.query({}, isArray = true);
+ngMongo.controller("ListCtrl", function($scope, $routeParams, $http, Mongo){
+    console.log($routeParams);
+
+    /*** simple equivalent version ***/
+
+    //start with databases to list all
+    var context = "database";
+    //or picking up specific database
+    if($routeParams.database) context = "collection";
+
+    $scope.items = Mongo[context].query($routeParams);
+    /*** END ***/
+
+    /*** verbose version
+    if($routeParams.database){
+        //fetch
+        $scope.items = Mongo.collection.query({ database: $routeParams.database });  //isArray = true, default
+    } else {
+        $scope.items = Mongo.database.query();
+    }
+     ***/
+
+
 //   var result = $http.get("/mongo-api/dbs");
 //   result.success(function(data){
 //       $scope.items = data;

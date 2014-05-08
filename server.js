@@ -28,8 +28,8 @@ app.configure('development', function(){
 var congoServer = require("./lib/mongoapi_server")(app);
 
 //router
+//app.get('/', routes.index);
 app.get('/', routes.index);
-app.get('/p2', routes.p2);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

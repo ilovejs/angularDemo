@@ -48,7 +48,7 @@
                         <tr ng-repeat="item in items">
                             <td>
                                 <h4>
-                                    <a href='{{item.details}}'>{{item.name}}</a>
+                                    <a href='#/{{item.details}}'>{{item.name}}</a>
                                 </h4>
                             </td>
                             <td>
@@ -65,7 +65,7 @@
             </div>
         </script>
     </div>
-    <!--bing with routeProvider-->
+    <!--bing with routeProvider, ng-view should exist inside ng-app-->
     <ng-view></ng-view>
 </div>
 
