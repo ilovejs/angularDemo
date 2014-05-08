@@ -42,26 +42,36 @@
 <div class="container" ng-app="ngMongo">
     <div class="row">
         <script type="text/ng-template" id="list-template.html">
-            <div class="span9">
-                <table class="table table-striped">
-                    <tbody>
-                        <tr ng-repeat="item in items">
-                            <td>
-                                <h4>
-                                    <a href='#/{{item.details}}'>{{item.name}}</a>
-                                </h4>
-                            </td>
-                            <td>
-                                <delete-button text="Delete" action="removeItem(item)"></delete-button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="row">
+                <div class="span12">
+                    <ol class="breadcrumb">
+                        <li><h3><a href="#/">Databases</a><span class="separator" ng-show="database"> / </span></h3></li>
+                        <li><h3><a href="#/{{database}}">{{database}}</a></h3></li>
+                    </ol>
+                </div>
             </div>
-            <div class="span3">
-                <input type="text" ng-model="newItemName"/>
-                <!---->
-                <add-button text="Add" action="addItem()"></add-button>
+            <div class="row">
+                <div class="span9">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr ng-repeat="item in items">
+                                <td>
+                                    <h4>
+                                        <a href='#/{{item.details}}'>{{item.name}}</a>
+                                    </h4>
+                                </td>
+                                <td>
+                                    <delete-button text="Delete" action="removeItem(item)"></delete-button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="span3">
+                    <input type="text" ng-model="newItemName"/>
+                    <!---->
+                    <add-button text="Add" action="addItem()"></add-button>
+                </div>
             </div>
         </script>
     </div>

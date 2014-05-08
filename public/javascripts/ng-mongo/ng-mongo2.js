@@ -35,6 +35,10 @@ ngMongo.directive("deleteButton", Tekpub.Bootstrap.DeleteButton);
 ngMongo.directive("addButton", Tekpub.Bootstrap.AddButton);
 
 ngMongo.controller("ListCtrl", function($scope, $routeParams, $http, Mongo){
+    //extend scope with route on it k=database, v={{name}}
+    _.extend($scope, $routeParams);
+
+
     console.log($routeParams);
 
     /*** simple equivalent version ***/
