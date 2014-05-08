@@ -62,19 +62,23 @@ ngMongo.controller("ListCtrl", function($scope, $routeParams, $http, Mongo){
 //       $scope.items = data;
 //   });
 
-   $scope.addDb = function(){
-       var dbName = $scope.newDbName;
-       if(dbName){
-           var newDb = new Mongo.database({name: dbName});
-           newDb.$save(); //use http POST
-           $scope.items.push(newDb); //check node console info to make sure it is POST
+   $scope.addItem = function(){
+       var newItemName = $scope.newItemName;
+       if(newItemName){
+           var newItem = new Mongo[context]({name: newItemName});
+           //if adding 'collection' that belongs to database, make sure POST to '/mongo-api/:database'
+           //creating new db POST to '/mongo-api/dbs'
+           newItem.$save($routeParams); //use http POST
+           $scope.items.push(newItem); //check node console info to make sure it is POST
        }
-       console.log(dbName);
    };
 
-   $scope.removeDb = function(item){
-        if(confirm("Remove database?")){
-            item.$delete({name: item.name});
+   $scope.removeItem = function(item){
+        if(confirm("Delete this " + context + " ? There's no undo...")){
+            var params = {name: item.name};
+            if($routeParams.database) params.database = $routeParams.database;
+
+            item.$delete(params);
             $scope.items.splice($scope.items.indexOf(item),1);
         }
    };
