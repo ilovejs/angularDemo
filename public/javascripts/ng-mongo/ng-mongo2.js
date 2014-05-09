@@ -39,10 +39,25 @@ ngMongo.config(function($routeProvider){
 //});
 
 //service pattern
-ngMongo.service("Mongo", function($resource){
-    this.database = $resource("/mongo-api/dbs");
-    this.collection = $resource("/mongo-api/:database");
-    this.document = $resource("/mongo-api/:database/:collection");
+ngMongo.provider("Mongo", function(){
+    var connectionString = "";
+    this.setConnection = function(conn){
+        connectionString = conn;
+    };
+
+    this.$get = function($resource){
+        return {
+            connection: connectionString,
+            database : $resource("/mongo-api/dbs"),
+            collection : $resource("/mongo-api/:database"),
+            document : $resource("/mongo-api/:database/:collection")
+        }
+    };
+
+});
+
+ngMongo.config(function(MongoProvider){
+    MongoProvider.setConnection("some connection string");
 });
 
 //naming convention is Carmle case
@@ -58,6 +73,7 @@ ngMongo.controller("DocumentCtrl", function($scope, $routeParams, Mongo){
 });
 
 ngMongo .controller("ListCtrl", function($scope, $routeParams, $http, Mongo){
+    console.log(Mongo.connection);
     //extend scope with route on it k=database, v={{name}}
     var params = {
         database : $routeParams.database,
