@@ -28,13 +28,21 @@ ngMongo.config(function($routeProvider){
 });
 
 //factory return object, while services() return function
-ngMongo.factory("Mongo", function($resource){
-    //inject http service to Mongo
-    return {
-        database: $resource("/mongo-api/dbs"),
-        collection: $resource("/mongo-api/:database"),
-        document: $resource("/mongo-api/:database/:collection")
-    }
+//use revealing pattern, console.log(this) return back a Constructor
+//ngMongo.factory("Mongo", function($resource){
+//    //inject http service to Mongo
+//    return {
+//        database: $resource("/mongo-api/dbs"),
+//        collection: $resource("/mongo-api/:database"),
+//        document: $resource("/mongo-api/:database/:collection")
+//    }
+//});
+
+//service pattern
+ngMongo.service("Mongo", function($resource){
+    this.database = $resource("/mongo-api/dbs");
+    this.collection = $resource("/mongo-api/:database");
+    this.document = $resource("/mongo-api/:database/:collection");
 });
 
 //naming convention is Carmle case
@@ -49,8 +57,12 @@ ngMongo.controller("DocumentCtrl", function($scope, $routeParams, Mongo){
 
 });
 
-ngMongo.controller("ListCtrl", function($scope, $routeParams, $http, Mongo){
+ngMongo .controller("ListCtrl", function($scope, $routeParams, $http, Mongo){
     //extend scope with route on it k=database, v={{name}}
+    var params = {
+        database : $routeParams.database,
+        collection: $routeParams.collection
+    };
 
     console.log($routeParams);
 
@@ -59,9 +71,9 @@ ngMongo.controller("ListCtrl", function($scope, $routeParams, $http, Mongo){
     //start with databases to list all
     var context = "database";
     //or picking up specific database
-    if($routeParams.database) context = "collection";
+    if(params.database) context = "collection";
 
-    $scope.items = Mongo[context].query($routeParams);
+    $scope.items = Mongo[context].query(params);
     /*** END ***/
 
     /*** verbose version
@@ -85,17 +97,17 @@ ngMongo.controller("ListCtrl", function($scope, $routeParams, $http, Mongo){
            var newItem = new Mongo[context]({name: newItemName});
            //if adding 'collection' that belongs to database, make sure POST to '/mongo-api/:database'
            //creating new db POST to '/mongo-api/dbs'
-           newItem.$save($routeParams); //use http POST
+           newItem.$save(params); //use http POST
            $scope.items.push(newItem); //check node console info to make sure it is POST
        }
    };
 
    $scope.removeItem = function(item){
         if(confirm("Delete this " + context + " ? There's no undo...")){
-            var params = {name: item.name};
-            if($routeParams.database) params.database = $routeParams.database;
+            var removeParams = {name: item.name};
+            if(params.database) removeParams.database = params.database;
 
-            item.$delete(params);
+            item.$delete(removeParams);
             $scope.items.splice($scope.items.indexOf(item),1);
         }
    };
