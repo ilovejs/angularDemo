@@ -100,12 +100,14 @@
 <script src="/javascripts/tekpub/ng-bootstrap.js"></script>
 <script src="/javascripts/ng-mongo/ng-mongo2.js"></script>
 <script type="text/javascript">
-    var MongoApiService = {
+    var Tekpub = Tekpub || {};
+    Tekpub.mongoApi = {
         root: "/mongo-api/dbs",
         database: "/mongo-api/:database",
         collection: "/mongo-api/:database/:collection",
         document: "/mongo-api/:database/:collection/:id"
     };
+
     angular.element(document).ready(function(){
         angular.bootstrap(document, ['ngMongo']);
     });

@@ -61,9 +61,9 @@ ngMongo.provider("Media", function(){
 //use constant 'MongoApiService'
 ngMongo.config(function(MediaProvider){
 
-    for(var key in MongoApiService){
+    for(var key in Tekpub.mongoApi){
         //console.log("Setting " + key + " to " + api[key]);
-        MediaProvider.setResource(key, MongoApiService[key]);
+        MediaProvider.setResource(key, Tekpub.mongoApi[key]);
     }
 });
 
