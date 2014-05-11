@@ -4,6 +4,13 @@
 
 var ngMongo = angular.module("ngMongo", ['ngResource']);
 
+//ngMongo.value
+ngMongo.constant("MongoApiService", {
+    root: "/mongo-api/dbs",
+    database: "/mongo-api/:database",
+    collection: "/mongo-api/:database/:collection",
+    document: "/mongo-api/:database/:collection/:id"
+});
 /*
 * Pattern taken from : Egghead.io
 * Egghead.io - AngularJS - YouTube by John Lindquist
@@ -38,6 +45,35 @@ ngMongo.config(function($routeProvider){
 //    }
 //});
 
+ngMongo.provider("Media", function(){
+   //config
+    var resources = [];
+    this.setResource = function(resourceName, url){
+        var resource = {name: resourceName, url: url};
+        resources.push(resource);
+    }
+    //injected
+    //building resources dynamically based on provider
+    this.$get = function($resource){
+        var result = {};
+        _.each(resources, function(resource){
+            //use resource constructor
+            result[resource.name] = $resource(resource.url);
+        });
+        console.log(result);
+        return result;
+    }
+});
+
+//use constant 'MongoApiService'
+ngMongo.config(function(MediaProvider, MongoApiService){
+
+    for(var key in MongoApiService){
+        //console.log("Setting " + key + " to " + api[key]);
+        MediaProvider.setResource(key, MongoApiService[key]);
+    }
+});
+
 //service pattern
 ngMongo.provider("Mongo", function(){
     var connectionString = "";
@@ -56,9 +92,9 @@ ngMongo.provider("Mongo", function(){
 
 });
 
-ngMongo.config(function(MongoProvider){
-    MongoProvider.setConnection("some connection string");
-});
+//ngMongo.config(function(MongoProvider){
+//    MongoProvider.setConnection("some connection string");
+//});
 
 //naming convention is Carmle case
 ngMongo.directive("deleteButton", Tekpub.Bootstrap.DeleteButton);
@@ -72,24 +108,25 @@ ngMongo.controller("DocumentCtrl", function($scope, $routeParams, Mongo){
 
 });
 
-ngMongo .controller("ListCtrl", function($scope, $routeParams, $http, Mongo){
-    console.log(Mongo.connection);
+ngMongo .controller("ListCtrl", function($scope, $routeParams, $http, Mongo, Media){
+    //console.log(Mongo.connection);
     //extend scope with route on it k=database, v={{name}}
     var params = {
         database : $routeParams.database,
         collection: $routeParams.collection
     };
 
-    console.log($routeParams);
+    //console.log($routeParams);
 
     /*** simple equivalent version ***/
 
     //start with databases to list all
-    var context = "database";
+    var context = "root";
     //or picking up specific database
-    if(params.database) context = "collection";
+    if(params.database) context = "database";
+    if(params.collection) context = "collection";
 
-    $scope.items = Mongo[context].query(params);
+    $scope.items = Media[context].query(params);
     /*** END ***/
 
     /*** verbose version

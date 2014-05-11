@@ -39,7 +39,7 @@
     </div>
 </div>
 
-<div class="container" ng-app="ngMongo">
+<div class="container">
     <div class="row">
 
         <script type="text/ng-template" id="breadcrumb-template.html">
@@ -99,5 +99,10 @@
 <script src="/javascripts/vendor/angular-resource.js"></script>
 <script src="/javascripts/tekpub/ng-bootstrap.js"></script>
 <script src="/javascripts/ng-mongo/ng-mongo2.js"></script>
+<script type="text/javascript">
+    angular.element(document).ready(function(){
+        angular.bootstrap(document, ['ngMongo']);
+    }); 
+</script>
 </body>
 </html>
