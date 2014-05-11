@@ -4,13 +4,6 @@
 
 var ngMongo = angular.module("ngMongo", ['ngResource']);
 
-//ngMongo.value
-ngMongo.constant("MongoApiService", {
-    root: "/mongo-api/dbs",
-    database: "/mongo-api/:database",
-    collection: "/mongo-api/:database/:collection",
-    document: "/mongo-api/:database/:collection/:id"
-});
 /*
 * Pattern taken from : Egghead.io
 * Egghead.io - AngularJS - YouTube by John Lindquist
@@ -66,7 +59,7 @@ ngMongo.provider("Media", function(){
 });
 
 //use constant 'MongoApiService'
-ngMongo.config(function(MediaProvider, MongoApiService){
+ngMongo.config(function(MediaProvider){
 
     for(var key in MongoApiService){
         //console.log("Setting " + key + " to " + api[key]);
